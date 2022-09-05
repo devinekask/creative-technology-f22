@@ -34,7 +34,7 @@ When following this course as an "Expert", we'll cover these extra topics:
 
 Lasercutting workshop at Budalab
 
-### [WSwift](swift)
+### [Swift](swift)
 
 First steps in building native applications with Swift & SwiftUI.
 
