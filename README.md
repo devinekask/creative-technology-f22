@@ -6,33 +6,33 @@ This course is the finalizing technical / coding course at [Devine, a 3 year Bac
 
 The following topics are covered for all students:
 
-### [Week 1 - Communication](communication)
+### Lasercutting
+
+Lasercutting workshop at Budalab
+
+### [Topic 1 - Communication](communication)
 
 Real time communication using websockets and WebRTC.
 
-### [Week 2 - AI](ai)
+### [Topic 2 - AI](ai)
 
 Introduction in practical AI / ML for interactive pieces.
 
-### [Week 3 - WebGL](webgl)
+### [Topic 3 - WebGL](webgl)
 
 2D WebGL fragment shaders & 3D using ThreeJS.
 
-### [Week 4 - React Native](react-native)
+### [Topic 4 - React Native](react-native)
 
 Building native apps with React.
 
-### Week 5 - Capita Selecta
+### Capita Selecta
 
 You'll present your research on a given library / framework
 
 ## Expert Students
 
 When following this course as an "Expert", we'll cover these extra topics:
-
-### [Intro - Lasercutting]
-
-Lasercutting workshop at Budalab
 
 ### [Swift](swift)
 
