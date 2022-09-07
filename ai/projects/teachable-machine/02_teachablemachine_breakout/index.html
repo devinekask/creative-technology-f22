@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Teachable Machine Demo</title>
+</head>
+<body>
+	<div>Teachable Machine Pose Model</div>
+<button type="button" id="start">Start</button>
+<div><canvas id="canvas"></canvas></div>
+<div id="label-container"></div>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/pose@0.8/dist/teachablemachine-pose.min.js"></script>
+<script type="text/javascript">
+	// More API functions here:
+	// https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
+
+	// the link to your model provided by Teachable Machine export panel
+	const URL = "./my_model/";
+	let model, webcam, ctx, labelContainer, maxPredictions;
+	const size = 200;
+	let paddleX = 100;
+	let ballX = 100, ballY = 170, ballSize = 5, ballSpeedX = 5, ballSpeedY = -5;
+	let bricks = [];
+	let gameState = "start"; // start, play, over
+	let lastPose = null;
+
+	const init = async () => {
+		const modelURL = URL + "model.json";
+		const metadataURL = URL + "metadata.json";
+
+		// load the model and metadata
+		// Refer to tmImage.loadFromFiles() in the API to support files from a file picker
+		// Note: the pose library adds a tmPose object to your window (window.tmPose)
+		model = await tmPose.load(modelURL, metadataURL);
+		maxPredictions = model.getTotalClasses();
+
+		// Convenience const to =  setup a webca=> m
+		const size = 200;
+		const flip = true; // whether to flip the webcam
+		webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
+		await webcam.setup(); // request access to the webcam
+		await webcam.play();
+		window.requestAnimationFrame(loop);
+
+		// append/get elements to the DOM
+		const canvas = document.getElementById("canvas");
+		canvas.width = size; canvas.height = size;
+		ctx = canvas.getContext("2d");
+		labelContainer = document.getElementById("label-container");
+		for (let i = 0; i < maxPredictions; i++) { // and class labels
+			labelContainer.appendChild(document.createElement("div"));
+		}
+
+		// adjust the paddleX variable on each key press
+		document.addEventListener("keydown", keyDownHandler, false);
+
+		// link the start method to the button
+		document.getElementById("start").addEventListener("click", start, false);
+
+		requestAnimationFrame(draw);
+	}
+
+	const start = () => {
+		ballX = 100;
+		ballY = 170;
+		ballSpeedX = 5;
+		ballSpeedY = -5;
+		createBricks();
+		gameState = "play";
+	}
+
+	const createBricks = () => {
+		const rows = 6;
+		const cols = 10;
+		const brickWidth = size / cols;
+		const brickHeight = 10;
+		bricks = [];
+		for (let col = 0; col < cols; col++) {
+			for (let row = 0; row < rows; row++) {
+				bricks.push({
+					x: col * brickWidth,
+					y: row * brickHeight,
+					w: brickWidth,
+					h: brickHeight
+				});
+			}
+		}
+	}
+
+	const drawBricks = () => {
+		for (let i = 0; i < bricks.length; i++) {
+			const brick = bricks[i];
+			ctx.beginPath();
+			ctx.rect(brick.x, brick.y, brick.w, brick.h);
+			ctx.fillStyle = "#0095DD";
+			ctx.strokeStyle = "#000000";
+			ctx.lineWidth = 1;
+			ctx.fill();
+			ctx.stroke();
+			ctx.closePath();
+		}
+	}
+
+	const keyDownHandler = (e) => {
+		if (e.keyCode == 39) {
+			paddleX += 10;
+		}
+		else if (e.keyCode == 37) {
+			paddleX -= 10;
+		}
+	}
+
+	const loop = async (timestamp) => {
+		webcam.update(); // update the webcam frame
+		await predict();
+		window.requestAnimationFrame(loop);
+	}
+
+	const predict = async () => {
+		// Prediction #1: run input through posenet
+		// estimatePose can take in an image, video or canvas html element
+		const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
+		// Prediction 2: run input through teachable machine classification model
+		const prediction = await model.predict(posenetOutput);
+
+		// sort the prediction by probability from highest to lowest
+		const predictionSorted = prediction.sort((a, b) => parseFloat(b.probability) - parseFloat(a.probability));
+
+		if (predictionSorted[0].className == "left") {
+			paddleX -= 5;
+		} else if (predictionSorted[0].className == "right") {
+			paddleX += 5;
+		}
+
+		for (let i = 0; i < maxPredictions; i++) {
+			const classPrediction =
+				prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+			labelContainer.childNodes[i].innerHTML = classPrediction;
+		}
+
+		lastPose = pose;
+	}
+
+	const draw = () => {
+		// clear the canvas
+		ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+		drawPose(lastPose);
+		drawPaddle();
+		if (gameState == "play") {
+			drawBall();
+			drawBricks();
+		}
+		requestAnimationFrame(draw);
+	}
+
+	const drawPose = (pose) => {
+		if (webcam.canvas) {
+			ctx.drawImage(webcam.canvas, 0, 0);
+			// draw the keypoints and skeleton
+			if (pose) {
+				const minPartConfidence = 0.5;
+				tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx);
+				tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx);
+			}
+		}
+	}
+
+	const drawPaddle = () => {
+		ctx.beginPath();
+		ctx.rect(paddleX, 180, 100, 10);
+		ctx.fillStyle = "yellow";
+		ctx.fill();
+		ctx.closePath();
+	}
+
+	const drawBall = () => {
+		ctx.beginPath();
+		ctx.arc(ballX, ballY, ballSize, 0, Math.PI * 2);
+		ctx.fillStyle = "red";
+		ctx.fill();
+		ctx.closePath();
+
+		ballX += ballSpeedX;
+		ballY += ballSpeedY;
+
+		if (ballY - ballSize < 0) {
+			ballSpeedY = Math.abs(ballSpeedY);
+		}
+		if (ballY + ballSize > ctx.canvas.height) {
+			gameState = "over"
+		}
+		if (ballX - ballSize < 0) {
+			ballSpeedX = Math.abs(ballSpeedX);
+		}
+		if (ballX + ballSize > ctx.canvas.width) {
+			ballSpeedX = -Math.abs(ballSpeedX);
+		}
+		// check if the ball has hit the paddle
+		if (ballY + ballSize > 180 && ballY - ballSize < 180) {
+			if (ballX + ballSize > paddleX && ballX - ballSize < paddleX + 100) {
+				ballSpeedY = -Math.abs(ballSpeedY);
+			}
+		}
+		for (let i = 0; i < bricks.length; i++) {
+			// if we hit a brick, remove it from the array and bounce back down
+			if (ballY + ballSize > bricks[i].y && ballY - ballSize < bricks[i].y + bricks[i].h) {
+				if (ballX + ballSize > bricks[i].x && ballX - ballSize < bricks[i].x + bricks[i].w) {
+					bricks.splice(i, 1);
+					ballSpeedY = Math.abs(ballSpeedY);
+				}
+			}
+		}
+	}
+
+	init();
+</script>
+</body>
+</html>
