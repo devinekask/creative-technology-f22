@@ -2,41 +2,42 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ML5</title>
+  <title>AI</title>
 </head>
 <body>
-  <script src="https://unpkg.com/ml5@0.5.0/dist/ml5.min.js"></script>
-  <script>
-  {
-    const loadImage = src=> {
-      return new Promise((resolve, reject) => {
-        const $img = new Image();
-        $img.addEventListener("load", () => resolve($img));
-        $img.addEventListener("error", err => reject(err));
-        $img.src = src;
-      });
-    };
+<script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+<script>
+{
+  const loadImage = src => {
+    return new Promise((resolve, reject) => {
+      const $img = new Image();
+      $img.addEventListener("load", () => resolve($img));
+      $img.addEventListener("error", err => reject(err));
+      $img.src = src;
+    });
+  };
 
-    const init = async () => {
-      const $img = await loadImage('images/cat.jpg');
-      document.body.appendChild($img);
+  const init = async () => {
+    const $img = await loadImage('images/cat.jpg');
+    document.body.appendChild($img);
 
-      const $label = document.createElement('h2');
-      document.body.appendChild($label);
-      $label.textContent = 'Loading Mobilenet...';
+    const $label = document.createElement('h2');
+    document.body.appendChild($label);
+    $label.textContent = 'Loading Mobilenet...';
 
-      const classifier = await ml5.imageClassifier('MobileNet');
+    const classifier = await ml5.imageClassifier('MobileNet');
+    console.log('Mobilenet loaded');
 
-      $label.textContent = 'Classifying...';
-      const classifications = await classifier.classify($img, 1);
+    $label.textContent = 'Classifying...';
+    const classifications = await classifier.classify($img, 1);
 
-      $label.textContent = `${classifications[0].label} (Confidence: ${classifications[0].confidence})`;
+    $label.textContent = `${classifications[0].label} (Confidence: ${classifications[0].confidence})`;
+  };
 
-    };
-
-    init();
-  }
-  </script>
+  init();
+}
+</script>
 </body>
 </html>
