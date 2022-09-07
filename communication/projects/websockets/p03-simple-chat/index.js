@@ -1,22 +1,20 @@
-const express = require('express');
-const app = express();
-const server = require('http').Server(app);
-const port = process.env.PORT || 80;
+const express = require('express')
+const app = express()
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+const port = 3000
 
-const io = require('socket.io')(server);
+app.use(express.static('public'))
+server.listen(port, () => {
+  console.log(`App listening on port ${port}`)
+})
 
 io.on('connection', socket => {
-  console.log('Socket connected', socket.id);
-
-  socket.on('message', message => {
-    console.log(message);
+  console.log(`Connection`);
+  socket.on(`message`, message => {
+    console.log(`Received message: ${message}`);
     io.sockets.emit(`message`, message);
   });
-
-});
-
-app.use(express.static('public'));
-
-server.listen(port, () => {
- console.log(`App listening on port ${port}!`);
 });

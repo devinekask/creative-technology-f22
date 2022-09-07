@@ -21,7 +21,8 @@ server.listen(port, () => {
  console.log(`App listening on port ${port}!`);
 });
 
-const io = require('socket.io')(server);
+const { Server } = require("socket.io");
+const io = new Server(server);
 
 const clients = {};
 io.on('connection', socket => {

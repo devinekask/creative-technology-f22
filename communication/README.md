@@ -117,14 +117,14 @@ npm install express
 Create an index.js file in the project root, where you start a basic express server:
 
 ```javascript
-const express = require('express');
-const app = express();
-const server = require('http').Server(app);
-const port = process.env.PORT || 80;
+const express = require('express')
+const app = express()
+const port = 3000
 
-server.listen(port, () => {
- console.log(`App listening on port ${port}!`);
-});
+app.use(express.static('public'))
+app.listen(port, () => {
+  console.log(`App listening on port ${port}`)
+})
 ```
 
 Add a start script to your package.json which executes the index.js file
@@ -135,7 +135,7 @@ Add a start script to your package.json which executes the index.js file
 },
 ```
 
-And run `npm start` to launch the node app. Navigating to http://localhost should give you a 404-error from express:
+And run `npm start` to launch the node app. Navigating to http://localhost:3000 should give you a 404-error from express:
 
 ![screenshot of a 404 error](images/your-own-server-404.png)
 
@@ -157,10 +157,23 @@ Next up, we'll need to handle websocket connections to our server. Add socket.io
 npm install socket.io
 ```
 
-Initialise socket.io and pass in the express server:
+Looking at the documenation at https://socket.io/get-started/chat#integrating-socketio we'll add socket.io to the mix.
+
+add a couple of module initialisations after `const app = express()`:
 
 ```javascript
-const io = require('socket.io')(server);
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+```
+
+Change `app.listen` into `server.listen`:
+
+```javascript
+server.listen(port, () => {
+  console.log(`App listening on port ${port}`)
+})
 ```
 
 Next up, add an event listener to handle websocket connections:
