@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "coffees",
+  "info": {
+    "singularName": "coffee",
+    "pluralName": "coffees",
+    "displayName": "Coffee"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "plantbased": {
+      "type": "boolean"
+    },
+    "description": {
+      "type": "text"
+    },
+    "price": {
+      "type": "decimal"
+    }
+  }
+}
