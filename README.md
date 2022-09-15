@@ -6,10 +6,6 @@ This course is the finalizing technical / coding course at [Devine, a 3 year Bac
 
 The following topics are covered for all students:
 
-### Lasercutting
-
-Lasercutting workshop at Budalab
-
 ### [Topic 1 - Communication](communication)
 
 Real time communication using websockets and WebRTC.
