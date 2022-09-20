@@ -1247,7 +1247,25 @@ peerConnection.ontrack = (e) => {
 };
 ```
 
-Test the app. Depending on your browser you should see the stream playing in the receiver.html, or the first frame. In Safari, you might need a user interaction before the video starts playing. You can solve this using a simple click handler on the video tag of the `receiver.html`:
+We're almost there. Test the app: you might see an error in the sender, complaining about a remote description not being set. Our sender still needs to handle the answer from the receiver!
+
+```javascript
+socket.on('peerAnswer', async (myId, answer, peerId) => {
+  console.log('Received peerAnswer from ${peerId}');
+  console.log(answer);
+  await handlePeerAnswer(myId, answer, peerId);
+});
+```
+
+and
+
+```javascript
+const handlePeerAnswer = async (myId, answer, peerId) => {
+  await peerConnection.setRemoteDescription(answer);
+};
+```
+
+Test the app agin. Depending on your browser you should see the stream playing in the receiver.html, or the first frame. In Safari, you might need a user interaction before the video starts playing. You can solve this using a simple click handler on the video tag of the `receiver.html`:
 
 ```javascript
 $otherCamera.addEventListener('click', () => {
