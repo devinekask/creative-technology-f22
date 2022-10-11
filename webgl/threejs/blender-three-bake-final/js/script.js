@@ -21,6 +21,7 @@ scene.add(camera)
 
 const controls = new OrbitControls(camera, canvas)
 controls.enableDamping = true
+controls.dampingFactor = 0.05
 
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
@@ -56,6 +57,7 @@ loader.load(
         child.material = material;
       }
     })
+    gltf.scene.position.y = -4
     scene.add(gltf.scene)
   }
 );
@@ -66,12 +68,12 @@ const draw = () => {
 
   monitorPlaneMaterial.uniforms.iTime.value = elapsedTime
   
+  controls.update()
   renderer.render(scene, camera)
   window.requestAnimationFrame(draw)
 }
 
 window.addEventListener('resize', () => {
-  controls.update()
   // Update size
   size.width = window.innerWidth
   size.height = window.innerHeight
