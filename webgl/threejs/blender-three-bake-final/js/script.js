@@ -37,7 +37,7 @@ const material = new THREE.MeshBasicMaterial({ map: texture })
 const monitorPlaneMaterial = new THREE.ShaderMaterial({
   uniforms: {
     iTime: { value: 0 },
-    iResolution: { value: new THREE.Vector2(2, 2) },
+    iResolution: { value: new THREE.Vector2(16, 9) },
     iMouse: { value: new THREE.Vector2(0, 0) },
   },
   vertexShader: cyberFujiVertexShader,
