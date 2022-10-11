@@ -2,8 +2,8 @@ import * as THREE from 'three'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
-import portalVertexShader from './shaders/portal/vertex.glsl?raw'
-import portalFragmentShader from './shaders/portal/fragment.glsl?raw'
+import cyberFujiVertexShader from './shaders/cyberFuji/vertex.glsl?raw'
+import cyberFujiFragmentShader from './shaders/cyberFuji/fragment.glsl?raw'
 
 const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
@@ -35,12 +35,12 @@ const material = new THREE.MeshBasicMaterial({ map: texture })
 
 const monitorPlaneMaterial = new THREE.ShaderMaterial({
   uniforms: {
-    uTime: { value: 0 },
-    uColorStart: { value: new THREE.Color('#ff0000') },
-    uColorEnd: { value: new THREE.Color('#0000ff') },
+    iTime: { value: 0 },
+    iResolution: { value: new THREE.Vector2(2, 2) },
+    iMouse: { value: new THREE.Vector2(0, 0) },
   },
-  vertexShader: portalVertexShader,
-  fragmentShader: portalFragmentShader
+  vertexShader: cyberFujiVertexShader,
+  fragmentShader: cyberFujiFragmentShader,
 })
 
 const loader = new GLTFLoader();
@@ -63,12 +63,15 @@ loader.load(
 const clock = new THREE.Clock()
 const draw = () => {
   const elapsedTime = clock.getElapsedTime()
-  monitorPlaneMaterial.uniforms.uTime.value = elapsedTime
+
+  monitorPlaneMaterial.uniforms.iTime.value = elapsedTime
+  
   renderer.render(scene, camera)
   window.requestAnimationFrame(draw)
 }
 
 window.addEventListener('resize', () => {
+  controls.update()
   // Update size
   size.width = window.innerWidth
   size.height = window.innerHeight
