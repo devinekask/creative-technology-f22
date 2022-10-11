@@ -1185,7 +1185,7 @@ Doing 2D WebGL might have seemed a lot of work already, and things get a bit mor
 
 Three.js itself has some great [documentation](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene) and [an extensive list of examples](https://threejs.org/examples/).
 
-To learn how to work with Three.js, we are going to go with the lesson series at https://threejsfundamentals.org/. We'll go through some of the pages there, before creating an interactive 3D WebGL experience.
+To learn how to work with Three.js, we are going to go with the lesson series at https://threejs.org/manual/#en/fundamentals. We'll go through some of the pages there, before creating an interactive 3D WebGL experience.
 
 ## Hello Three.js
 
@@ -1197,25 +1197,25 @@ To be able to run of the Thee.js code, you'll need to link the Three.js library.
 </script>
 ```
 
-You'll start by going through the page at https://threejsfundamentals.org/threejs/lessons/threejs-fundamentals.html where you'll build a basic Three.js scene, familiarizing yourself with some basic Three.js concepts.
+You'll start by going through the page at https://threejs.org/manual/#en/fundamentals where you'll build a basic Three.js scene, familiarizing yourself with some basic Three.js concepts.
 
 Work your way through the following lessons:
 
-- https://threejsfundamentals.org/threejs/lessons/threejs-responsive.html
-- https://threejsfundamentals.org/threejs/lessons/threejs-primitives.html
-- https://threejsfundamentals.org/threejs/lessons/threejs-scenegraph.html
+- https://threejs.org/manual/#en/responsive
+- https://threejs.org/manual/#en/primitives
+- https://threejs.org/manual/#en/scenegraph
 
-Read up on materials at https://threejsfundamentals.org/threejs/lessons/threejs-materials.html
+Read up on materials at https://threejs.org/manual/#en/materials
 
 And continue coding with:
 
-- https://threejsfundamentals.org/threejs/lessons/threejs-textures.html (up until Filtering and Mips)
+- https://threejs.org/manual/#en/textures (up until Filtering and Mips)
 
 After handling the basics of textures, read through the following pages, and check the live demos. No need to code these yourself, just get yourself familiar with the different types and options:
 
-- https://threejsfundamentals.org/threejs/lessons/threejs-lights.html
-- https://threejsfundamentals.org/threejs/lessons/threejs-cameras.html
-- https://threejsfundamentals.org/threejs/lessons/threejs-shadows.html
+- https://threejs.org/manual/#en/lights
+- https://threejs.org/manual/#en/cameras
+- https://threejs.org/manual/#en/shadows
 
 ## The Aviator
 
