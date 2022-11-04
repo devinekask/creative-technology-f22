@@ -2,7 +2,7 @@
 //  Landmark.swift
 //  Landmarks
 //
-//  Created by Wouter Verweirder on 23/08/2021.
+//  Created by Wouter Verweirder on 02/11/2022.
 //
 
 import Foundation
@@ -18,18 +18,18 @@ struct Landmark: Hashable, Codable, Identifiable {
     var isFavorite: Bool
     var isFeatured: Bool
     
-    var category: Category
+    var category:Category
     enum Category: String, CaseIterable, Codable {
         case lakes = "Lakes"
         case rivers = "Rivers"
         case mountains = "Mountains"
     }
     
-    private var imageName:String
-    var image: Image{
+    private var imageName: String
+    var image: Image {
         Image(imageName)
     }
-    var featureImage:Image? {
+    var featureImage: Image? {
         isFeatured ? Image(imageName + "_feature") : nil
     }
     

@@ -2,7 +2,7 @@
 //  LandmarkDetail.swift
 //  Landmarks
 //
-//  Created by Wouter Verweirder on 23/08/2021.
+//  Created by Wouter Verweirder on 02/11/2022.
 //
 
 import SwiftUI
@@ -12,40 +12,34 @@ struct LandmarkDetail: View {
     var landmark: Landmark
     
     var landmarkIndex: Int {
-        modelData.landMarks.firstIndex(where: { $0.id == landmark.id})!
+        modelData.landmarks.firstIndex(where: { $0.id == landmark.id })!
     }
-    
     var body: some View {
         ScrollView {
             MapView(coordinate: landmark.locationCoordinate)
                 .ignoresSafeArea(edges: .top)
-                .frame(height: 300.0)
+                .frame(height: 300)
+            
             CircleImage(image: landmark.image)
                 .offset(y: -130)
                 .padding(.bottom, -130)
+            
             VStack(alignment: .leading) {
-                VStack {
-                    HStack {
-                        Text(landmark.name)
-                            .font(.title)
-                            .foregroundColor(.primary)
-                        FavoriteButton(isSet: $modelData.landMarks[landmarkIndex].isFavorite)
-                    }
+                HStack {
+                    Text(landmark.name)
+                        .font(.title)
+                    FavoriteButton(isSet: $modelData.landmarks[landmarkIndex].isFavorite)
                 }
-                VStack {
-                    HStack {
-                        Text(landmark.park)
-                        Spacer()
-                        Text(landmark.state)
-                    }
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
+                HStack {
+                    Text(landmark.park)
+                    Spacer()
+                    Text(landmark.state)
                 }
+                .font(.subheadline)
+                .foregroundColor(.secondary)
                 Divider()
-                
                 Text("About \(landmark.name)")
                     .font(.title2)
-                
                 Text(landmark.description)
             }
             .padding()
@@ -56,9 +50,8 @@ struct LandmarkDetail: View {
 }
 
 struct LandmarkDetail_Previews: PreviewProvider {
-    static let modelData = ModelData()
     static var previews: some View {
-        LandmarkDetail(landmark: modelData.landMarks[0])
-            .environmentObject(modelData)
+        LandmarkDetail(landmark: ModelData().landmarks[0])
+            .environmentObject(ModelData())
     }
 }

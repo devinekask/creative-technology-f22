@@ -2,15 +2,13 @@
 //  CategoryItem.swift
 //  Landmarks
 //
-//  Created by Wouter Verweirder on 23/08/2021.
+//  Created by Wouter Verweirder on 04/11/2022.
 //
 
 import SwiftUI
 
 struct CategoryItem: View {
-    
-    var landmark: Landmark
-    
+    var landmark:Landmark
     var body: some View {
         VStack(alignment: .leading) {
             landmark.image
@@ -28,6 +26,6 @@ struct CategoryItem: View {
 
 struct CategoryItem_Previews: PreviewProvider {
     static var previews: some View {
-        CategoryItem(landmark: ModelData().landMarks[0])
+        CategoryItem(landmark: ModelData().landmarks[0])
     }
 }

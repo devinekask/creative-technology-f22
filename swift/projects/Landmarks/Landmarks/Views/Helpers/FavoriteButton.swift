@@ -2,22 +2,21 @@
 //  FavoriteButton.swift
 //  Landmarks
 //
-//  Created by Wouter Verweirder on 23/08/2021.
+//  Created by Wouter Verweirder on 02/11/2022.
 //
 
 import SwiftUI
 
 struct FavoriteButton: View {
-    
     @Binding var isSet: Bool
-    
     var body: some View {
-        Button(action: {
+        Button {
             isSet.toggle()
-        }, label: {
-            Image(systemName: isSet ? "star.fill" : "star")
-                .foregroundColor(isSet ? Color.yellow : Color.gray)
-        })
+        } label: {
+            Label("Toggle Favorite", systemImage: isSet ? "star.fill" : "star")
+                .labelStyle(.iconOnly)
+                .foregroundColor(isSet ? .yellow : .gray)
+        }
     }
 }
 

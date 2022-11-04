@@ -2,13 +2,12 @@
 //  ProfileEditor.swift
 //  Landmarks
 //
-//  Created by Wouter Verweirder on 24/08/2021.
+//  Created by Wouter Verweirder on 04/11/2022.
 //
 
 import SwiftUI
 
 struct ProfileEditor: View {
-    
     @Binding var profile:Profile
     
     var dateRange: ClosedRange<Date> {
@@ -24,20 +23,24 @@ struct ProfileEditor: View {
                 Divider()
                 TextField("Username", text: $profile.username)
             }
-            Toggle(isOn: $profile.prefersNotifications, label: {
+            
+            Toggle(isOn: $profile.prefersNotifications) {
                 Text("Enable Notifications").bold()
-            })
-            VStack {
+            }
+            
+            VStack(alignment: .leading, spacing: 20) {
                 Text("Seasonal Photo").bold()
+                
                 Picker("Seasonal Photo", selection: $profile.seasonalPhoto) {
                     ForEach(Profile.Season.allCases) { season in
                         Text(season.rawValue).tag(season)
                     }
                 }
-                .pickerStyle(SegmentedPickerStyle())
+                .pickerStyle(.segmented)
             }
+            
             DatePicker(selection: $profile.goalDate, in: dateRange, displayedComponents: .date) {
-                Text("Goal Date").bold()
+                Text("Goal date").bold()
             }
         }
     }

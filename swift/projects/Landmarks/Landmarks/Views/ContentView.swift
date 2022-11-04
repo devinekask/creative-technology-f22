@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  Landmarks
 //
-//  Created by Wouter Verweirder on 23/08/2021.
+//  Created by Wouter Verweirder on 02/11/2022.
 //
 
 import SwiftUI
@@ -22,7 +22,6 @@ struct ContentView: View {
                     Label("Featured", systemImage: "star")
                 }
                 .tag(Tab.featured)
-            
             LandmarkList()
                 .tabItem {
                     Label("List", systemImage: "list.bullet")

@@ -7,8 +7,9 @@ A single line in the graph.
 
 import SwiftUI
 
-struct GraphCapsule: View {
+struct GraphCapsule: View, Equatable {
     var index: Int
+    var color: Color
     var height: CGFloat
     var range: Range<Double>
     var overallRange: Range<Double>
@@ -23,7 +24,7 @@ struct GraphCapsule: View {
 
     var body: some View {
         Capsule()
-            .fill(Color.white)
+            .fill(color)
             .frame(height: height * heightRatio)
             .offset(x: 0, y: height * -offsetRatio)
     }
@@ -31,9 +32,11 @@ struct GraphCapsule: View {
 
 struct GraphCapsule_Previews: PreviewProvider {
     static var previews: some View {
-        // The graph that uses the capsule tints it by multiplying against its
-        // base color of white. Emulate that behavior here in the preview.
-        GraphCapsule(index: 0, height: 150, range: 10..<50, overallRange: 0..<100)
-            .colorMultiply(.blue)
+        GraphCapsule(
+            index: 0,
+            color: .blue,
+            height: 150,
+            range: 10..<50,
+            overallRange: 0..<100)
     }
 }

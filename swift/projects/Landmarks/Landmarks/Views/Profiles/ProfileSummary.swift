@@ -2,22 +2,21 @@
 //  ProfileSummary.swift
 //  Landmarks
 //
-//  Created by Wouter Verweirder on 23/08/2021.
+//  Created by Wouter Verweirder on 04/11/2022.
 //
 
 import SwiftUI
 
 struct ProfileSummary: View {
-    @EnvironmentObject var modelData: ModelData
-    
-    var profile:Profile
-    
+    @EnvironmentObject var modelData:ModelData
+    var profile: Profile
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 10) {
                 Text(profile.username)
                     .bold()
                     .font(.title)
+                
                 Text("Notifications: \(profile.prefersNotifications ? "On" : "Off")")
                 Text("Seasonal Photos: \(profile.seasonalPhoto.rawValue)")
                 Text("Goal Date: ") + Text(profile.goalDate, style: .date)
@@ -32,17 +31,18 @@ struct ProfileSummary: View {
                         HStack {
                             HikeBadge(name: "First Hike")
                             HikeBadge(name: "Earth Day")
-                                .hueRotation(Angle(degrees: 90))
+                                .hueRotation(.degrees(90))
                             HikeBadge(name: "Tenth Hike")
-                                .grayscale(/*@START_MENU_TOKEN@*/0.50/*@END_MENU_TOKEN@*/)
-                                .hueRotation(Angle(degrees: 45))
+                                .grayscale(0.5)
+                                .hueRotation(.degrees(45))
                         }
+                        .padding(.bottom)
                     }
                 }
                 
                 Divider()
                 
-                VStack(alignment:.leading) {
+                VStack(alignment: .leading) {
                     Text("Recent Hikes")
                         .font(.headline)
                     

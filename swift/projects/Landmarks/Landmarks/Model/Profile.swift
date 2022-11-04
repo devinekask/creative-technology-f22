@@ -2,7 +2,7 @@
 //  Profile.swift
 //  Landmarks
 //
-//  Created by Wouter Verweirder on 23/08/2021.
+//  Created by Wouter Verweirder on 04/11/2022.
 //
 
 import Foundation
@@ -13,7 +13,7 @@ struct Profile {
     var seasonalPhoto = Season.winter
     var goalDate = Date()
     
-    static let `default` = Profile(username: "w_verweirder")
+    static let `default` = Profile(username: "wouter")
     
     enum Season: String, CaseIterable, Identifiable {
         case spring = "🌷"
@@ -21,6 +21,6 @@ struct Profile {
         case autumn = "🍂"
         case winter = "☃️"
         
-        var id:String { self.rawValue }
+        var id: String { rawValue }
     }
 }

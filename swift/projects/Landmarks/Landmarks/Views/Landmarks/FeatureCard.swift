@@ -2,34 +2,36 @@
 //  FeatureCard.swift
 //  Landmarks
 //
-//  Created by Wouter Verweirder on 24/08/2021.
+//  Created by Wouter Verweirder on 04/11/2022.
 //
 
 import SwiftUI
 
 struct FeatureCard: View {
-    
     var landmark: Landmark
-    
     var body: some View {
         landmark.featureImage?
             .resizable()
-            .aspectRatio(3 / 2, contentMode: .fit)
-            .overlay(TextOverlay(landmark: landmark))
+            .aspectRatio(3/2, contentMode: .fit)
+            .overlay {
+                TextOverlay(landmark: landmark)
+            }
     }
 }
 
 struct TextOverlay: View {
-    
     var landmark: Landmark
     
     var gradient: LinearGradient {
-        LinearGradient(gradient: Gradient(colors: [Color.black.opacity(0.6), Color.black.opacity(0.0)]), startPoint: .bottom, endPoint: .center)
+        .linearGradient(
+            Gradient(colors: [.black.opacity(0.6), .black.opacity(0.0)]),
+            startPoint: .bottom, endPoint: .center
+        )
     }
     
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            Rectangle().fill(gradient)
+            gradient
             VStack(alignment: .leading) {
                 Text(landmark.name)
                     .font(.title)

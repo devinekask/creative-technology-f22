@@ -2,7 +2,7 @@
 //  PageControl.swift
 //  Landmarks
 //
-//  Created by Wouter Verweirder on 24/08/2021.
+//  Created by Wouter Verweirder on 04/11/2022.
 //
 
 import SwiftUI
@@ -12,15 +12,16 @@ struct PageControl: UIViewRepresentable {
     var numberOfPages: Int
     @Binding var currentPage: Int
     
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-    
     func makeUIView(context: Context) -> UIPageControl {
         let control = UIPageControl()
         control.numberOfPages = numberOfPages
         control.addTarget(context.coordinator, action: #selector(Coordinator.updateCurrentPage(sender:)), for: .valueChanged)
+        
         return control
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
     }
     
     func updateUIView(_ uiView: UIPageControl, context: Context) {
@@ -30,7 +31,7 @@ struct PageControl: UIViewRepresentable {
     class Coordinator: NSObject {
         var control: PageControl
         
-        init (_ control: PageControl) {
+        init(_ control: PageControl) {
             self.control = control
         }
         

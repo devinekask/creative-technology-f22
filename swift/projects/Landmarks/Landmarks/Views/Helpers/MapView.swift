@@ -2,54 +2,25 @@
 //  MapView.swift
 //  Landmarks
 //
-//  Created by Wouter Verweirder on 23/08/2021.
+//  Created by Wouter Verweirder on 02/11/2022.
 //
 
 import SwiftUI
 import MapKit
 
 struct MapView: View {
-    
     var coordinate: CLLocationCoordinate2D
-    
-    @AppStorage("MapView.zoom")
-    private var zoom: Zoom = .medium
-    
-    var delta: CLLocationDegrees {
-        switch zoom {
-        case .near: return 0.02
-        case .medium: return 0.2
-        case .far: return 2
-        }
-    }
-    
-    enum Zoom: String, CaseIterable, Identifiable {
-        case near = "Near"
-        case medium = "Medium"
-        case far = "Far"
-        
-        var id: Zoom {
-            return self
-        }
-    }
-    
+    @State private var region = MKCoordinateRegion()
     var body: some View {
-        Map(coordinateRegion: .constant(region))
+        Map(coordinateRegion: $region)
+            .onAppear {
+                setRegion(coordinate)
+            }
     }
     
-    var region: MKCoordinateRegion {
-        MKCoordinateRegion(
-            center: coordinate,
-            span: MKCoordinateSpan(latitudeDelta: delta, longitudeDelta: delta)
-        )
+    private func setRegion(_ coordinate: CLLocationCoordinate2D) {
+        region = MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
     }
-    
-//    private func setRegion(_ coordinate:CLLocationCoordinate2D) {
-//        region = MKCoordinateRegion(
-//            center: coordinate,
-//            span: MKCoordinateSpan(latitudeDelta: delta, longitudeDelta: delta)
-//        )
-//    }
 }
 
 struct MapView_Previews: PreviewProvider {

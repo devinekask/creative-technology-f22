@@ -43,12 +43,12 @@ struct HikeGraph: View {
                 ForEach(Array(data.enumerated()), id: \.offset) { index, observation in
                     GraphCapsule(
                         index: index,
+                        color: color,
                         height: proxy.size.height,
                         range: observation[keyPath: path],
-                        overallRange: overallRange)
-                        .colorMultiply(color)
-                        .transition(.slide)
-                        .animation(.ripple(index: index))
+                        overallRange: overallRange
+                    )
+                    .animation(.ripple(index: index))
                 }
                 .offset(x: 0, y: proxy.size.height * heightRatio)
             }
@@ -65,7 +65,7 @@ func rangeOfRanges<C: Collection>(_ ranges: C) -> Range<Double>
 }
 
 func magnitude(of range: Range<Double>) -> Double {
-    return range.upperBound - range.lowerBound
+    range.upperBound - range.lowerBound
 }
 
 struct HikeGraph_Previews: PreviewProvider {

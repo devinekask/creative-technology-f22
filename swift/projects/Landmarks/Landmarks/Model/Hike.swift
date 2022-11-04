@@ -2,7 +2,7 @@
 //  Hike.swift
 //  Landmarks
 //
-//  Created by Wouter Verweirder on 23/08/2021.
+//  Created by Wouter Verweirder on 04/11/2022.
 //
 
 import Foundation
@@ -17,7 +17,7 @@ struct Hike: Codable, Hashable, Identifiable {
     static var formatter = LengthFormatter()
     
     var distanceText:String {
-        return Hike.formatter.string(fromValue: distance, unit: .kilometer)
+        Hike.formatter.string(fromValue: distance, unit: .kilometer)
     }
     
     struct Observation: Codable, Hashable {
